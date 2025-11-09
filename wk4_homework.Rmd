@@ -12,12 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(sf)
-world_shapes <- st_read('world_country_shapes.geojson')
+world_shapes <- st_read('~/Documents/CASA/GIS/wk4/hw4/World_Countries.geojson')
 ```
 
 ```{r}
 library(tidyverse)
-gender_inequity_data <- read_csv('HDR_composite_indices.csv')
+gender_inequity_data <- read_csv('~/Documents/CASA/GIS/wk4/hw4/HDR25_Composite_indices_complete_time_series.csv')
 ```
 
 Add correct country code to inequality data
@@ -79,4 +79,29 @@ tm_shape(final_data) +
                                       size = 0.8))
 ```
 
+```{r}
+
+library(tmap)
+library(viridis)  # optional, tmap can use viridis palettes directly
+
+# Set interactive mode
+tmap_mode("view")
+
+# Create a map using the 'magma' Viridis palette
+tm_shape(final_data) +
+  tm_basemap(server = "OpenStreetMap") +
+  tm_compass(type = "arrow", position = c("left", "bottom")) +
+  tm_scalebar(position = c("left", "bottom")) +
+  tm_title("Gender Inequality Change 2010-2019") +
+  tm_polygons(
+    col = "difference_in_inequality",   # variable to color polygons
+    palette = "magma",                   # use Viridis 'magma' palette
+    style = "jenks",                     # natural breaks classification
+    alpha = 0.8,                         # transparency
+    border.col = "gray50",               # polygon border
+    title = "Difference in Inequality"
+  )
+
+
+```
 
